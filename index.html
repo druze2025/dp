@@ -1,107 +1,0 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head>
-<meta charset="utf-8"/>
-<title>تقرير يومي</title>
-<style>
-    body { font-family: 'Arial', sans-serif; direction: rtl; text-align: right; padding: 20px; background-color: #f0f0f0; }
-    label { display: block; margin-top: 10px; }
-    select, input, textarea { width: 100%; margin-top: 5px; padding: 5px; }
-    .section { margin-bottom: 20px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    h2 { background-color: #004d66; color: white; padding: 10px; border-radius: 5px; }
-    button { background-color: #004d66; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer; }
-    #location { display: none; }
-</style>
-</head>
-<body>
-<form id="dailyReportForm" method="POST" action="https://script.google.com/macros/s/AKfycbxAh4_cr4dPHTDYC6GoHg9IhUd3yGPw0tGp9ez4adDgbyNqiaz-JhodfllL6OLFXfw49Q/exec">
-  <div style="text-align: center; margin-bottom: 20px;">
-    <img src="druzepulse_logo.png" alt="DruzePulse Logo" style="max-width: 200px;"/>
-  </div>
-  <h1>📋 تقرير יוםي: صورة الوضع المدني</h1>
-  <div class="section">
-    <h2>🗓️ معلومات أساسية</h2>
-    <label>📅 التاريخ:<input id="date" name="date" type="date" required/></label>
-    <label>⏰ الوقت:<input id="time" name="time" type="time" required/></label>
-    <label>🏘️ البلدة:
-      <select id="village" name="village" onchange="toggleOtherVillageInput(this)">
-        <!-- قائمة היישובים הדרוזיים בסוריה מעל 10% -->
-        <option>السويداء</option>
-        <option>صلخد</option>
-        <option>شهبا</option>
-        <option>قنوات</option>
-        <option>راس العين</option>
-        <option>عتمان</option>
-        <option>الحمة</option>
-        <option>مزرعة بيت جن</option>
-        <option>ريمون</option>
-        <option>أخر</option>
-      </select>
-    </label>
-    <label id="otherVillageLabel" style="display:none;">🔤 أدخل اسم البلدة: <input id="otherVillageInput" name="other_village" type="text"/></label>
-    <label>👤 اسم ممثل البلده: <input name="rep_name" type="text" required/></label>
-    <label>📞 رقم هاتف ممثل البلده: <input name="rep_phone" type="tel" required/></label>
-    <label>👤 اسم قائد القوة العسكرية: <input name="cmdr_name" type="text" required/></label>
-    <label>📞 رقم هاتف القوة العسكرية: <input name="cmdr_phone" type="tel" required/></label>
-  </div>
-  <div class="section">
-    <h2>🚨 وضع السكان</h2>
-    <label>عدد السكان الذين تم إجلاؤهم: <input type="number" name="evacuated"/></label>
-    <label>عدد السكان المخطوفين: <input type="number" name="kidnapped"/></label>
-    <label>عدد السكان اللاجئين / المستضافين: <input type="number" name="refugees"/></label>
-    <label>عدد السكان المصابين / المتضررين: <input type="number" name="injured"/></label>
-  </div>
-  <div class="section">
-    <h2>🏥 الخدمات الداعمة</h2>
-    <label>🏥 مركز الاتصال:
-      <select name="communication_center"><option>متوفر</option><option>استجابة ضعيفة</option><option>لا يوجد</option><option>أعطال</option><option>أخر</option></select>
-      <input type="text" name="communication_center_other" placeholder="يرجى التحديد إذا تم اختيار أخر" style="display:none; margin-top:5px;"/>
-    </label>
-    <label>🏥 مركز طبي / عيادات / فرق طبية:
-      <select name="medical_center"><option>متوفر</option><option>جزئي</option><option>غير متوفر</option><option>أخر</option></select>
-      <input type="text" name="medical_center_other" placeholder="يرجى التحديد إذا تم اختيار أخر" style="display:none; margin-top:5px;"/>
-    </label>
-    <label>🚜 معدات لفتح الطرق / فتح محاور / جرارات:
-      <select name="road_equipment"><option>متوفرة</option><option>قليلة</option><option>غير متوفرة</option><option>אخر</option></select>
-      <input type="text" name="road_equipment_other" placeholder="يرجى التحديد إذا تم اختيار أخر" style="display:none; margin-top:5px;"/>
-    </label>
-  </div>
-  <button type="submit">إرسال</button>
-  <button type="button" onclick="sendToWhatsApp()">📤 إرسال إلى واتساب</button>
-  <button type="button" onclick="window.print()">🖨️ طباعة / تصدير PDF</button>
-  <input id="location" name="location" type="hidden"/>
-</form>
-<script>
-function toggleOtherVillageInput(select) {
-  document.getElementById('otherVillageLabel').style.display = (select.value === 'أخر') ? 'block' : 'none';
-}
-window.onload = function() {
-  const now = new Date();
-  document.getElementById('date').valueAsDate = now;
-  document.getElementById('time').value = now.toTimeString().slice(0,5);
-  if (navigator.geolocation) navigator.geolocation.getCurrentPosition(pos => {
-    document.getElementById('location').value = `${pos.coords.latitude.toFixed(5)},${pos.coords.longitude.toFixed(5)}`;
-  }, () => document.getElementById('location').value = 'غير متاح');
-  document.getElementById('dailyReportForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    fetch(this.action, { method: 'POST', mode: 'no-cors', body: formData })
-      .then(() => alert('✅ تم الإرسال بنجاح'))
-      .catch(() => alert('❌ حدث خطأ أثناء الإرسال'));
-  });
-};
-function sendToWhatsApp() {
-  let msg = "تقرير جديد:\n";
-  document.querySelectorAll("input, select, textarea").forEach(input => {
-    if (input.type === 'hidden') return;
-    const lbl = input.closest('label');
-    if (!lbl) return;
-    const key = lbl.innerText.split(':')[0].trim();
-    const val = input.value || (input.selectedOptions ? input.selectedOptions[0].text : '');
-    if (val) msg += `${key}: ${val}\n`;
-  });
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-}
-</script>
-</body>
-</html>
