@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<title>تقرير يومي</title>
+<style>
+        body { font-family: 'Arial', sans-serif; direction: rtl; text-align: right; padding: 20px; background-color: #f0f0f0; }
+        label { display: block; margin-top: 10px; }
+        select, input, textarea { width: 100%; margin-top: 5px; padding: 5px; }
+        .section { margin-bottom: 20px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { background-color: #004d66; color: white; padding: 10px; border-radius: 5px; }
+        button { background-color: #004d66; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<form method="POST" action="https://script.google.com/macros/s/AKfycbxAh4_cr4dPHTDYC6GoHg9IhUd3yGPw0tGp9ez4adDgbyNqiaz-JhodfllL6OLFXfw49Q/exec">
+    <input type=\"hidden\" name=\"sheetId\" value=\"1joR4-q0vfJDSilup7AqF9U0UpzN6FNl3pHZfds1j3BI\" />
+
+<div style="text-align: center; margin-bottom: 20px;">
+<img alt="DruzePulse Logo" src="druzepulse_logo.png" style="max-width: 200px;"/>
+</div>
+<h1>📋 تقرير يومي: صورة الوضع المدني</h1>
+<div class="section">
+<label>📅 التاريخ:<input id="date" name="date" type="date"/></label><label>⏰ الوقت:<input id="time" name="time" type="time"/></label><h2>🗓️ معلومات أساسية</h2>
+<label>🏘️ البلدة:
+  <select id="village" name="village" onchange="toggleOtherVillageInput(this)"><option>أم الرمان</option><option>أم الزيتون</option><option>أم ضبيب</option><option>أم ولد</option><option>الثعلة</option><option>الدارة</option><option>الدور</option><option>الرحى</option><option>السويداء</option><option>الطيبة</option><option>الغارية</option><option>الكارس</option><option>الكسيب</option><option>الكفر</option><option>المجادل</option><option>المجيمر</option><option>المزرعة</option><option>المشنف</option><option>المغير</option><option>الهيت</option><option>برد</option><option>بريكة</option><option>بكا</option><option>جبيب</option><option>حبران</option><option>حزم</option><option>خازمة</option><option>خربة الميس</option><option>خربة عرمان</option><option>خربة عواد</option><option>ذيبين</option><option>رساس</option><option>سالة</option><option>سليم</option><option>سهوة الخضر</option><option>سهوة بلاطة</option><option>شهبا</option><option>صلاخد</option><option>صلخد</option><option>طربا</option><option>عراجة</option><option>عرمان</option><option>عرى</option><option>عريقة</option><option>قريا</option><option>قنوات</option><option>قيصما</option><option>لبين</option><option>ملح</option><option>نجران</option><option>نمرة</option><option>أخر</option></select>
+</label>
+<label id="otherVillageLabel" style="display:none;">🔤 أدخل اسم البلدة: <input id="otherVillageInput" name="other_village" type="text"/></label>
+<script>
+  function toggleOtherVillageInput(select) {
+    const otherLabel = document.getElementById('otherVillageLabel');
+    if (select.value === 'other') {
+      otherLabel.style.display = 'block';
+    } else {
+      otherLabel.style.display = 'none';
+    }
+  }
+</script>
+<label>👤 اسم ممثل البلده: <input name="rep_name" type="text"/></label>
+<label>📞 رقم هاتف ممثل البلده: <input name="rep_phone" type="text"/></label>
+<label>👤 اسم قائد القوة العسكرية: <input name="cmdr_name" type="text"/></label>
+<label>📞 رقم هاتف القوة العسكرية: <input name="cmdr_phone" type="text"/></label>
+<div class="section">
+<h2>🚨 وضع السكان</h2>
+<label>عدد السكان الذين تم إجلاؤهم: <input type="number"/></label>
+<label>عدد السكان المخطوفين: <input type="number"/></label>
+<label>عدد السكان اللاجئين / المستضافين: <input type="number"/></label>
+<label>عدد السكان المصابين / المتضررين: <input type="number"/></label>
+</div>
+<div class="section">
+<h2>🏥 الخدمات الداعمة</h2>
+<label>🏥 مركز الاتصال:
+<select>
+<option>متوفر</option>
+<option>استجابة ضعيفة</option>
+<option>لا يوجد</option>
+<option>أعطال</option>
+<option>أخر</option></select><input oninput="this.previousElementSibling.value === 'أخر' ? this.style.display='block' : this.style.display='none'" placeholder="يرجى التوضيح" style="display:none; margin-top:5px;" type="text"/></label>
+<label>🏥 مركز طبي / عيادات / فرق طبية:
+<select>
+<option>متوفر</option>
+<option>جزئي</option>
+<option>غير متوفر</option>
+<option>أخر</option></select><input oninput="this.previousElementSibling.value === 'أخر' ? this.style.display='block' : this.style.display='none'" placeholder="يرجى التوضيح" style="display:none; margin-top:5px;" type="text"/></label>
+<label>🚜 معدات لفتح الطرق / فتح محاور / جرارات:
+  <select name="equipment">
+<option>متوفرة</option>
+<option>قليلة</option>
+<option>غير متوفرة</option>
+<option>أخر</option></select>
+<input oninput="this.previousElementSibling.value === 'أخر' ? this.style.display='block' : this.style.display='none'" placeholder="يرجى التوضيح" style="display:none; margin-top:5px;" type="text"/></label>
+</div>
+<div class="section">
+<h2>🔧 البُنى التحتية الأساسية</h2>
+<label>💧 حالة المياه:
+            <select>
+<option>متوفرة</option>
+<option>غير متوفرة</option>
+<option>غير كافٍ</option>
+<option>آبار/ينابيع قريبة</option>
+<option>أعطال</option>
+<option>تعمل بمصدر طاقة</option>
+<option>أخر</option></select>
+<input oninput="this.previousElementSibling.value === 'أخر' ? this.style.display='block' : this.style.display='none'" placeholder="يرجى التوضيح" style="display:none; margin-top:5px;" type="text"/></label>
+<label>📡 حالة الاتصال:
+            <select>
+<option>تغطية خلوية</option>
+<option>فضائية</option>
+<option>إنترنت</option>
+<option>غير متوفرة</option>
+<option>أخر</option></select>
+<input oninput="this.previousElementSibling.value === 'أخر' ? this.style.display='block' : this.style.display='none'" placeholder="يرجى التوضيح" style="display:none; margin-top:5px;" type="text"/></label>
+<label>⚡ حالة الكهرباء / المولدات:
+            <select>
+<option>تعمل</option>
+<option>لا تعمل</option>
+<option>مولدات</option>
+<option>تحتاج وقود</option>
+<option>أخر</option></select>
+<input oninput="this.previousElementSibling.value === 'أخر' ? this.style.display='block' : this.style.display='none'" placeholder="يرجى التوضيح" style="display:none; margin-top:5px;" type="text"/></label>
+<label>🛢️ حالة الوقود:
+            <select>
+<option>المخزون الحالي</option>
+<option>مصدر التوريد</option>
+<option>غير متوفر</option>
+<option>أخر</option></select>
+<input oninput="this.previousElementSibling.value === 'أخر' ? this.style.display='block' : this.style.display='none'" placeholder="يرجى التوضيح" style="display:none; margin-top:5px;" type="text"/></label>
+<label>🍞 حالة الطعام:
+            <select>
+<option>متوفر</option>
+<option>نقص</option>
+<option>توريد فوري</option>
+<option>غير متوفر</option>
+<option>أخر</option></select>
+<input oninput="this.previousElementSibling.value === 'أخر' ? this.style.display='block' : this.style.display='none'" placeholder="يرجى التوضيح" style="display:none; margin-top:5px;" type="text"/></label>
+<label>🔥 حالة الغاز:
+            <select>
+<option>المخزون الحالي</option>
+<option>مصدر التزويد</option>
+<option>أخر</option>
+<option>غير متوفر</option>
+</select>
+</label>
+<label>💊 حالة الأدوية والصيدليات:
+            <select>
+<option>المخزون الحالي</option>
+<option>مصدر التزويد</option>
+<option>أخر</option>
+<option>غير متوفر</option>
+</select>
+</label>
+<label>ملاحظات أخرى / احتياجات إضافية: <textarea></textarea></label>
+</div>
+<button type="submit">إرسال</button>
+<button onclick="sendToWhatsApp()">📤 إرسال إلى واتساب</button>
+<button onclick="window.print()">🖨️ طباعة / تصدير PDF</button>
+<script>
+        function sendToWhatsApp() {
+            let message = "تقرير جديد:\n";
+            const inputs = document.querySelectorAll("input, select, textarea");
+            inputs.forEach(input => {
+                let label = input.closest("label");
+                if (!label) return;
+                let labelText = label.innerText.split(":")[0].trim();
+                let value = input.value || input.options?.[input.selectedIndex]?.text || '';
+                if (value) message += labelText + ": " + value + "\n";
+            });
+
+            const encoded = encodeURIComponent(message);
+            window.open("https://wa.me/?text=" + encoded, "_blank");
+        }
+    </script>
+<input id="location" name="location" type="hidden"/>
+</div><script>
+window.onload = function() {
+    const now = new Date();
+    document.getElementById('date').valueAsDate = now;
+    document.getElementById('time').value = now.toTimeString().slice(0,5);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const lat = position.coords.latitude.toFixed(5);
+            const lon = position.coords.longitude.toFixed(5);
+            const locField = document.createElement("input");
+            locField.type = "hidden";
+            locField.name = "location";
+            locField.value = `${lat},${lon}`;
+            document.forms[0].appendChild(locField);
+        });
+    }
+};
+</script></form>
+</body>
+</html>
